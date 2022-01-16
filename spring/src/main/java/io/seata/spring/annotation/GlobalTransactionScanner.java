@@ -166,7 +166,7 @@ public class GlobalTransactionScanner extends AbstractAutoProxyCreator
         if (StringUtils.isNullOrEmpty(applicationId) || StringUtils.isNullOrEmpty(txServiceGroup)) {
             throw new IllegalArgumentException(String.format("applicationId: %s, txServiceGroup: %s", applicationId, txServiceGroup));
         }
-        //init TM
+        //init TM 初始化
         TMClient.init(applicationId, txServiceGroup);
         if (LOGGER.isInfoEnabled()) {
             LOGGER.info("Transaction Manager Client is initialized. applicationId[{}] txServiceGroup[{}]", applicationId, txServiceGroup);
@@ -291,6 +291,7 @@ public class GlobalTransactionScanner extends AbstractAutoProxyCreator
             }
             return;
         }
+        //初始化客户端
         initClient();
     }
 

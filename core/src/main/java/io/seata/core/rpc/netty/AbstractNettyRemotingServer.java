@@ -58,6 +58,7 @@ public abstract class AbstractNettyRemotingServer extends AbstractNettyRemoting 
     public AbstractNettyRemotingServer(ThreadPoolExecutor messageExecutor, NettyServerConfig nettyServerConfig) {
         super(messageExecutor);
         serverBootstrap = new NettyServerBootstrap(nettyServerConfig);
+        //设置通道
         serverBootstrap.setChannelHandlers(new ServerHandler());
     }
 

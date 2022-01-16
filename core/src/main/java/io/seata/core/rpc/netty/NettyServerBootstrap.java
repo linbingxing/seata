@@ -41,7 +41,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
- * Rpc server bootstrap.
+ * Rpc server bootstrap.  Netty服务器设置
  *
  * @author zhangchenghui.dev@gmail.com
  * @since 1.1.0
@@ -144,6 +144,7 @@ public class NettyServerBootstrap implements RemotingBootstrap {
                         .addLast(new ProtocolV1Decoder())
                         .addLast(new ProtocolV1Encoder());
                     if (channelHandlers != null) {
+
                         addChannelPipelineLast(ch, channelHandlers);
                     }
 

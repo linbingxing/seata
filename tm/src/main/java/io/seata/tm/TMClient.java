@@ -31,6 +31,7 @@ public class TMClient {
      * @param transactionServiceGroup the transaction service group
      */
     public static void init(String applicationId, String transactionServiceGroup) {
+        //创建TM的Netty远程客户端程序
         TmNettyRemotingClient tmNettyRemotingClient = TmNettyRemotingClient.getInstance(applicationId, transactionServiceGroup);
         tmNettyRemotingClient.init();
     }

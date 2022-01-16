@@ -75,12 +75,12 @@ public class Server {
         MetricsManager.get().init();
 
         System.setProperty(ConfigurationKeys.STORE_MODE, parameterParser.getStoreMode());
-
+        //设置Netty远程服务器
         NettyRemotingServer nettyRemotingServer = new NettyRemotingServer(WORKING_THREADS);
         //server port
         nettyRemotingServer.setListenPort(parameterParser.getPort());
         UUIDGenerator.init(parameterParser.getServerNode());
-        //log store mode : file, db, redis
+        //log store mode : file, db, redis日志存储方式
         SessionHolder.init(parameterParser.getStoreMode());
 
         DefaultCoordinator coordinator = new DefaultCoordinator(nettyRemotingServer);
@@ -99,6 +99,7 @@ public class Server {
         XID.setPort(nettyRemotingServer.getListenPort());
 
         try {
+            //服务器初始化
             nettyRemotingServer.init();
         } catch (Throwable e) {
             logger.error("nettyServer init error:{}", e.getMessage(), e);

@@ -59,6 +59,7 @@ import static io.seata.core.constants.DefaultValues.DEFAULT_TM_DEGRADE_CHECK_ALL
 import static io.seata.core.constants.DefaultValues.DEFAULT_TM_DEGRADE_CHECK_PERIOD;
 
 /**
+ * 全局拦截器
  * The type Global transactional interceptor.
  *
  * @author slievrly
@@ -113,12 +114,15 @@ public class GlobalTransactionalInterceptor implements ConfigurationChangeListen
         Method specificMethod = ClassUtils.getMostSpecificMethod(methodInvocation.getMethod(), targetClass);
         if (specificMethod != null && !specificMethod.getDeclaringClass().equals(Object.class)) {
             final Method method = BridgeMethodResolver.findBridgedMethod(specificMethod);
+            //获取⽅法上GlobalTransactional注解
             final GlobalTransactional globalTransactionalAnnotation =
                 getAnnotation(method, targetClass, GlobalTransactional.class);
             final GlobalLock globalLockAnnotation = getAnnotation(method, targetClass, GlobalLock.class);
             boolean localDisable = disable || (degradeCheck && degradeNum >= degradeCheckAllowTimes);
             if (!localDisable) {
+                //判断注解是否为空
                 if (globalTransactionalAnnotation != null) {
+                    //处理全局事务
                     return handleGlobalTransaction(methodInvocation, globalTransactionalAnnotation);
                 } else if (globalLockAnnotation != null) {
                     return handleGlobalLock(methodInvocation);

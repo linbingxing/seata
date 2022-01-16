@@ -53,10 +53,10 @@ public class TransactionalTemplate {
         if (txInfo == null) {
             throw new ShouldNeverHappenException("transactionInfo does not exist");
         }
-        // 1.1 get or create a transaction
+        // 1.1 get or create a transaction // 1.1 获取或者创建⼀个全局事务
         GlobalTransaction tx = GlobalTransactionContext.getCurrentOrCreate();
 
-        // 1.2 Handle the Transaction propatation and the branchType
+        // 1.2 Handle the Transaction propatation and the branchType  1.2 处理事务传播
         Propagation propagation = txInfo.getPropagation();
         SuspendedResourcesHolder suspendedResourcesHolder = null;
         try {
@@ -94,23 +94,23 @@ public class TransactionalTemplate {
 
             try {
 
-                // 2. begin transaction
+                // 2. begin transaction  2. 开启事务
                 beginTransaction(txInfo, tx);
 
                 Object rs = null;
                 try {
 
-                    // Do Your Business
+                    // Do Your Business // 执⾏⽬标⽅法
                     rs = business.execute();
 
                 } catch (Throwable ex) {
 
-                    // 3.the needed business exception to rollback.
+                    // 3.the needed business exception to rollback.  3.回滚所需的业务异常。
                     completeTransactionAfterThrowing(txInfo, tx, ex);
                     throw ex;
                 }
 
-                // 4. everything is fine, commit.
+                // 4. everything is fine, commit. 4. 事务提交
                 commitTransaction(tx);
 
                 return rs;

@@ -44,7 +44,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
- * Rpc client.
+ * Rpc client.  Netty客户端设置
  *
  * @author slievrly
  * @author zhaojun
@@ -138,6 +138,7 @@ public class NettyClientBootstrap implements RemotingBootstrap {
                         .addLast(new ProtocolV1Decoder())
                         .addLast(new ProtocolV1Encoder());
                     if (channelHandlers != null) {
+                        //添加管道处理程序
                         addChannelPipelineLast(ch, channelHandlers);
                     }
                 }

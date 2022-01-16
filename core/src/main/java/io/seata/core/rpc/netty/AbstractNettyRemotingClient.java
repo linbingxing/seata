@@ -105,6 +105,7 @@ public abstract class AbstractNettyRemotingClient extends AbstractNettyRemoting 
             public void run() {
                 clientChannelManager.reconnect(getTransactionServiceGroup());
             }
+            //延时60秒，每次10秒
         }, SCHEDULE_DELAY_MILLS, SCHEDULE_INTERVAL_MILLS, TimeUnit.MILLISECONDS);
         if (NettyClientConfig.isEnableClientBatchSendRequest()) {
             mergeSendExecutorService = new ThreadPoolExecutor(MAX_MERGE_SEND_THREAD,
@@ -122,8 +123,11 @@ public abstract class AbstractNettyRemotingClient extends AbstractNettyRemoting 
                                        ThreadPoolExecutor messageExecutor, NettyPoolKey.TransactionRole transactionRole) {
         super(messageExecutor);
         this.transactionRole = transactionRole;
+        //创建Netty客户端引导类
         clientBootstrap = new NettyClientBootstrap(nettyClientConfig, eventExecutorGroup, transactionRole);
+        //设置通道处理程序
         clientBootstrap.setChannelHandlers(new ClientHandler());
+        //创建netty客户端通道管理器
         clientChannelManager = new NettyClientChannelManager(
             new NettyPoolableFactory(this, clientBootstrap), getPoolKeyFunction(), nettyClientConfig);
     }

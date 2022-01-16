@@ -159,6 +159,7 @@ class NettyClientChannelManager {
     void reconnect(String transactionServiceGroup) {
         List<String> availList = null;
         try {
+            //获取可用服务列表
             availList = getAvailServerList(transactionServiceGroup);
         } catch (Exception e) {
             LOGGER.error("Failed to get available servers: {}", e.getMessage(), e);
@@ -203,6 +204,7 @@ class NettyClientChannelManager {
                 RegisterRMRequest registerRMRequest = (RegisterRMRequest) currentPoolKey.getMessage();
                 ((RegisterRMRequest) previousPoolKey.getMessage()).setResourceIds(registerRMRequest.getResourceIds());
             }
+            //发送请求
             channelFromPool = nettyClientKeyPool.borrowObject(poolKeyMap.get(serverAddress));
             channels.put(serverAddress, channelFromPool);
         } catch (Exception exx) {

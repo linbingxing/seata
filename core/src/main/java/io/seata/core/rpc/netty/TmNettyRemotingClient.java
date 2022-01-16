@@ -58,6 +58,7 @@ public final class TmNettyRemotingClient extends AbstractNettyRemotingClient {
         // registry processor
         registerProcessor();
         if (initialized.compareAndSet(false, true)) {
+            //调用初始化
             super.init();
         }
     }
@@ -99,6 +100,7 @@ public final class TmNettyRemotingClient extends AbstractNettyRemotingClient {
                         new NamedThreadFactory(nettyClientConfig.getTmDispatchThreadPrefix(),
                             nettyClientConfig.getClientWorkerThreads()),
                         RejectedPolicies.runsOldestTaskPolicy());
+                    //创建TM Netty远程客户端
                     instance = new TmNettyRemotingClient(nettyClientConfig, null, messageExecutor);
                 }
             }
@@ -166,7 +168,7 @@ public final class TmNettyRemotingClient extends AbstractNettyRemotingClient {
     }
 
     private void registerProcessor() {
-        // 1.registry TC response processor
+        // 1.registry TC response processor TC响应处理器
         ClientOnResponseProcessor onResponseProcessor =
             new ClientOnResponseProcessor(mergeMsgMap, super.getFutures(), getTransactionMessageHandler());
         super.registerProcessor(MessageType.TYPE_SEATA_MERGE_RESULT, onResponseProcessor, null);
@@ -176,7 +178,7 @@ public final class TmNettyRemotingClient extends AbstractNettyRemotingClient {
         super.registerProcessor(MessageType.TYPE_GLOBAL_ROLLBACK_RESULT, onResponseProcessor, null);
         super.registerProcessor(MessageType.TYPE_GLOBAL_STATUS_RESULT, onResponseProcessor, null);
         super.registerProcessor(MessageType.TYPE_REG_CLT_RESULT, onResponseProcessor, null);
-        // 2.registry heartbeat message processor
+        // 2.registry heartbeat message processor 心跳处理器
         ClientHeartbeatProcessor clientHeartbeatProcessor = new ClientHeartbeatProcessor();
         super.registerProcessor(MessageType.TYPE_HEARTBEAT_MSG, clientHeartbeatProcessor, null);
     }

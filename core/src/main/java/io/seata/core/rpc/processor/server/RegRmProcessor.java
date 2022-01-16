@@ -64,6 +64,7 @@ public class RegRmProcessor implements RemotingProcessor {
         String errorInfo = StringUtils.EMPTY;
         try {
             if (null == checkAuthHandler || checkAuthHandler.regResourceManagerCheckAuth(message)) {
+                //注册TM通道
                 ChannelManager.registerRMChannel(message, ctx.channel());
                 Version.putChannelVersion(ctx.channel(), message.getVersion());
                 isSuccess = true;
